@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DSA Examiner</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#f5f7fa; }
+    header { background:#282c34; padding:20px; color:#fff; text-align:center; font-size:24px; }
+    nav { background:#fff; box-shadow:0 2px 4px rgba(0,0,0,0.1); overflow-x:auto; white-space:nowrap; }
+    nav a { display:inline-block; padding:15px 25px; margin:0 5px; text-decoration:none; color:#333; font-weight:500; border-bottom:3px solid transparent; transition:0.3s; }
+    nav a:hover, nav a.active { color:#007bff; border-color:#007bff; }
+    main { padding:20px; }
+    .question-list { margin-top:20px; }
+    .question-item {
+      background:#fff; margin-bottom:10px; padding:15px; border-radius:4px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.1); cursor:pointer;
+      transition:background 0.2s;
+    }
+    .question-item:hover { background:#e9f2ff; }
+  </style>
+</head>
+<body>
+
+<header>DSA Examiner</header>
+
+<nav id="topic-nav">
+  <a href="#" data-topic="arrays">Arrays</a>
+  <a href="#" data-topic="linkedlist">Linked List</a>
+  <a href="#" data-topic="stack">Stack</a>
+  <a href="#" data-topic="queue">Queue</a>
+  <a href="#" data-topic="tree">Tree</a>
+  <a href="#" data-topic="graph">Graph</a>
+  <a href="#" data-topic="dp">Dynamic Programming</a>
+  <a href="#" data-topic="greedy">Greedy</a>
+  <a href="#" data-topic="backtracking">Backtracking</a>
+  <a href="#" data-topic="sorting">Sorting</a>
+</nav>
+
+<main>
+  <div id="question-container"></div>
+</main>
+
+<script>
+  const topics = {
+    arrays: [
+      { id:'two-sum', title:"Two Sum (Easy)" },
+      { id:'three-sum', title:"3Sum (Medium)" },
+      // ... up to 10
+    ],
+    stack: [
+      { id:'valid-parentheses', title:"Valid Parentheses (Easy)" },
+      { id:'trapping-rain-water', title:"Trapping Rain Water (Hard)" }
+    ]
+    // Define other topics similarly
+  };
+
+  const nav = document.getElementById('topic-nav');
+  const container = document.getElementById('question-container');
+
+  function loadTopic(topicKey) {
+    nav.querySelectorAll('a').forEach(a => {
+      a.classList.toggle('active', a.dataset.topic === topicKey);
+    });
+
+    const list = topics[topicKey] || [];
+    container.innerHTML = '';
+
+    if (!list.length) {
+      container.innerHTML = '<p>No questions available.</p>';
+      return;
+    }
+
+    const qlist = document.createElement('div');
+    qlist.className = 'question-list';
+
+    list.forEach(q => {
+      const item = document.createElement('div');
+      item.className = 'question-item';
+      item.textContent = q.title;
+      item.onclick = () => {
+        window.location.href = `questions/${q.id}.html`;
+      };
+      qlist.appendChild(item);
+    });
+
+    container.appendChild(qlist);
+  }
+
+  nav.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      e.preventDefault();
+      loadTopic(e.target.dataset.topic);
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadTopic('arrays'); // load Arrays by default
+  });
+</script>
+<script src="/index.js"></script>
+<script src="/run.js"></script>
+
+
+
+</body>
+</html>
