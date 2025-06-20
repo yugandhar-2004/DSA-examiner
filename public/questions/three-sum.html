@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3Sum · DSA Examiner</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100vh; }
+    .header { background: #282c34; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+    #timer { font-size: 18px; }
+    .container { flex: 1; display: flex; }
+    .sidebar { width: 35%; padding: 20px; background: #f9f9f9; border-right: 1px solid #ddd; overflow-y: auto; }
+    .editor-panel { width: 65%; display: flex; flex-direction: column; }
+    #editor { flex: 1; }
+    .controls { padding: 10px; background: #f0f0f0; display: flex; gap: 10px; align-items: center; }
+    .controls select, .controls button { padding: 8px; font-size: 14px; }
+    #results { height: 200px; overflow-y: auto; background: #1e1e1e; color: #f1f1f1; padding: 10px; font-family: monospace; }
+    .test-case { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>3Sum</h2>
+    <div id="timer">20:00</div>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <h3>Description</h3>
+      <p>Given an integer array nums, return all unique triplets [nums[i], nums[j], nums[k]] such that i ≠ j ≠ k and nums[i] + nums[j] + nums[k] == 0.</p>
+      <h3>Sample Test Case</h3>
+      <pre>Input: nums = [-1, 0, 1, 2, -1, -4]
+Output: [[-1,-1,2],[-1,0,1]]</pre>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="lang">
+          <option value="javascript">JavaScript</option>
+          <option value="python3">Python 3</option>
+          <option value="java">Java</option>
+        </select>
+        <button id="run-btn">Run</button>
+      </div>
+      <div id="editor"></div>
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <script src="/run.js"></script>
+</body>
+</html>
