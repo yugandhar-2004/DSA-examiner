@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buy and Sell Stock </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+
+</head>
+<body>
+
+  <div class="header">
+  <h2>Buy and Sell Stock</h2>
+</div>
+
+<div class="container">
+
+  <div class="sidebar">
+    <div class="headerblock">
+      <h3>Description</h3>
+      <p>Given an integer n and an array of n integers prices, where prices[i] is the price of a given stock on the i<sup>th</sup> day, you must find the maximum profit you can achieve from a single buy and a single sell.</p>
+
+      <p>You must buy before you sell.</p>
+
+      <p>If no profit can be achieved, return 0.</p>
+    </div>
+    
+    <div class="headerblock">
+      <h3>Example 1:</h3>
+      <h3>Sample Input</h3>
+      n=6
+      <p>prices = [7, 1, 5, 3, 6, 4]</p>
+
+      <h3>Sample Output</h3>
+      <p>5</p>
+    </div>
+    
+    <div class="headerblock" style="margin-bottom: 0px;">
+      <h3>Example 2:</h3>
+      <h3>Sample Input</h3>
+      n=5
+      <p>prices = [7, 6, 4, 3, 1]</p>
+
+      <h3>Sample Output</h3>
+      <p>0</p>
+    </div>
+  </div>
+
+      
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+<label>
+  <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+</label>
+
+<div id="custom-input" style="display:none;">
+  <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+</div>
+
+  <div class="output-box">
+  <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+  <div style=" display: flex; gap: 30px; margin-bottom: 10px;">
+    <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+    <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+    <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+    <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+    <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+  </div>
+  
+ 
+  <pre id="output">Click a testcase to view output...</pre>
+      </div>
+ 
+    </div>
+</div>
+
+
+
+<script>
+ const inputs = [
+  "6 7 1 5 3 6 4",       
+  "5 7 6 4 3 1",         
+  "7 3 8 1 9 4 2 4",     
+  "6 2 1 2 1 10 0",     
+  "5 3 2 6 1 8"          
+];
+
+const outputs_expected = [
+  "5",
+  "0",
+  "8",
+  "9",
+  "7"
+];
+
+function met(input) {
+    const tokens = input.trim().split(/\s+/).map(Number);
+    let index = 0;
+
+    function nextInt() {
+        return tokens[index++];
+    }
+
+    const n = nextInt();
+    const prices = [];
+    for (let i = 0; i < n; i++) {
+        prices.push(nextInt());
+    }
+
+    let minPrice = Infinity;
+    let maxProfit = 0;
+
+    for (let i = 0; i < n; i++) {
+        minPrice = Math.min(minPrice, prices[i]);
+        maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+    }
+
+    return `${maxProfit}`;
+}
+
+
+</script>
+</body>
+</html>
+

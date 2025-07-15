@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shortest Path in Binary Matrix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Shortest Path in Binary Matrix</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>You are given an n x n binary matrix grid. Return the length of the shortest clear path from the top-left cell (0, 0) to the bottom-right cell (n-1, n-1). If there is no such path, return -1.</p>
+        <p>A clear path in a binary matrix is a path from (0, 0) to (n-1, n-1) such that:</p>
+        <ul>
+          <li>All the visited cells value are 0.</li>
+          <li>We may move in 8 directions (including diagonals).</li>
+        </ul>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        n = 3<br><br>
+        grid = [ [0, 1, 0], [1, 0, 0], [1, 1, 0] ]<br><br>
+        <h3>Sample Output</h3>
+        <p>4</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        n = 2<br><br>
+        grid = [ [0, 1], [1, 0] ]<br><br>
+        <h3>Sample Output</h3>
+        <p>2</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "3 0 1 0 1 0 0 1 1 0",
+      "2 0 1 1 0",
+      "3 0 0 0 1 1 0 1 1 0",
+      "2 1 0 0 0",
+      "3 0 0 1 1 1 1 1 1 0"
+    ];
+
+    const outputs_expected = [
+      "4",
+      "2",
+      "4",
+      "-1",
+      "-1"
+    ];
+
+    function met(input) {
+      const tokens = input.trim().split(/\s+/).map(Number);
+      let index = 0;
+
+      const n = tokens[index++];
+      const grid = Array.from({ length: n }, () => Array(n).fill(0));
+
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          grid[i][j] = tokens[index++];
+        }
+      }
+
+      if (grid[0][0] !== 0 || grid[n - 1][n - 1] !== 0) return "-1";
+
+      const dir = [ [0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, -1], [-1, 1], [1, -1] ];
+      const queue = [ [0, 0, 1] ]; // i, j, dist
+      grid[0][0] = 1;
+
+      while (queue.length) {
+        const [i, j, d] = queue.shift();
+        if (i === n - 1 && j === n - 1) return `${d}`;
+
+        for (const [dx, dy] of dir) {
+          const ni = i + dx, nj = j + dy;
+          if (ni >= 0 && nj >= 0 && ni < n && nj < n && grid[ni][nj] === 0) {
+            grid[ni][nj] = 1;
+            queue.push([ni, nj, d + 1]);
+          }
+        }
+      }
+
+      return "-1";
+    }
+  </script>
+
+</body>
+</html>

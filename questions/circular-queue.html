@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Design Circular Queue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Design Circular Queue</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>Implement a circular queue of fixed size length k. Given integer q operations (enqueue x, dequeue), return the final state of the queue.</p>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        k = 3, q = 6<br><br>
+        ops = ["enqueue 1", "enqueue 2", "enqueue 3", "dequeue", "enqueue 4", "dequeue"]<br><br>
+        <h3>Sample Output</h3>
+        <p>[3, 4]</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        k = 2, q = 5<br><br>
+        ops = ["enqueue 10", "enqueue 20", "dequeue", "enqueue 30", "enqueue 40"]<br><br>
+        <h3>Sample Output</h3>
+        <p>[30, 40]</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "3 6 enqueue 1 enqueue 2 enqueue 3 dequeue enqueue 4 dequeue",
+      "2 5 enqueue 10 enqueue 20 dequeue enqueue 30 enqueue 40",
+      "4 7 enqueue 5 enqueue 6 enqueue 7 enqueue 8 dequeue enqueue 9 dequeue",
+      "2 3 enqueue 100 dequeue dequeue",
+      "3 5 enqueue 1 enqueue 2 enqueue 3 dequeue enqueue 4"
+    ];
+
+    const outputs_expected = [
+      "[3, 4]",
+      "[20, 30]",
+      "[7, 8, 9]",
+      "[]",
+      "[2, 3, 4]"
+    ];
+
+    function met(input) {
+      const tokens = input.trim().split(/\s+/);
+      const k = parseInt(tokens[0]);
+      const q = parseInt(tokens[1]);
+      const ops = tokens.slice(2);
+
+      const queue = new Array(k);
+      let head = 0, tail = 0, size = 0;
+
+      let i = 0;
+      while (i < ops.length) {
+        if (ops[i] === "enqueue") {
+          const x = parseInt(ops[i + 1]);
+          if (size < k) {
+            queue[tail] = x;
+            tail = (tail + 1) % k;
+            size++;
+          }
+          i += 2;
+        } else if (ops[i] === "dequeue") {
+          if (size > 0) {
+            head = (head + 1) % k;
+            size--;
+          }
+          i++;
+        }
+      }
+
+      const result = [];
+      for (let j = 0; j < size; j++) {
+        result.push(queue[(head + j) % k]);
+      }
+
+      return `[${result.join(", ")}]`;
+    }
+  </script>
+
+</body>
+</html>

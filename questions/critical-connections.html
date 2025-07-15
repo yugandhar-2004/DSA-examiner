@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Critical Connections in a Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Critical Connections in a Network</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>Given n servers numbered from 0 to n - 1 connected by undirected connections, find all critical connections in the network. A critical connection is an edge that, if removed, will make some server unable to reach another.</p>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        n = 4<br><br>
+        connections = [[0, 1], [1, 2], [2, 0], [1, 3]]<br><br>
+        <h3>Sample Output</h3>
+        <p>[[1, 3]]</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        n = 5<br><br>
+        connections = [[0, 1], [1, 2], [2, 3], [3, 4], [2, 4]]<br><br>
+        <h3>Sample Output</h3>
+        <p>[[0, 1]]</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "4 [[0,1],[1,2],[2,0],[1,3]]",
+      "5 [[0,1],[1,2],[2,3],[3,4],[2,4]]",
+      "6 [[0,1],[1,2],[2,0],[1,3],[3,4],[4,5],[5,3]]",
+      "2 [[0,1]]",
+      "3 [[0,1],[1,2]]"
+    ];
+
+    const outputs_expected = [
+      "[[1, 3]]",
+      "[[0, 1]]",
+      "[[1, 3]]",
+      "[[0, 1]]",
+      "[[0, 1], [1, 2]]"
+    ];
+
+    function met(input) {
+      const [nStr, connStr] = input.split(" ", 2);
+      const n = parseInt(nStr);
+      const connections = JSON.parse(connStr);
+
+      const graph = Array.from({ length: n }, () => []);
+      for (const [u, v] of connections) {
+        graph[u].push(v);
+        graph[v].push(u);
+      }
+
+      const disc = Array(n).fill(-1);
+      const low = Array(n).fill(-1);
+      let time = 0;
+      const result = [];
+
+      function dfs(u, parent) {
+        disc[u] = low[u] = time++;
+        for (const v of graph[u]) {
+          if (v === parent) continue;
+          if (disc[v] === -1) {
+            dfs(v, u);
+            low[u] = Math.min(low[u], low[v]);
+            if (low[v] > disc[u]) {
+              result.push([u, v]);
+            }
+          } else {
+            low[u] = Math.min(low[u], disc[v]);
+          }
+        }
+      }
+
+      dfs(0, -1);
+      return JSON.stringify(result);
+    }
+  </script>
+</body>
+</html>

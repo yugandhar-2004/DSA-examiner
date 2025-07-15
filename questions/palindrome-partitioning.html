@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Palindrome Partitioning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="header">
+    <h2>Palindrome Partitioning</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.</p>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        s = "aab"<br><br>
+        <h3>Sample Output</h3>
+        <p>[["a", "a", "b"], ["aa", "b"]]</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        s = "a"<br><br>
+        <h3>Sample Output</h3>
+        <p>[["a"]]</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder='Enter your input...&#10;Example: aab'></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "aab",
+      "a",
+      "aba",
+      "abba",
+      "racecar"
+    ];
+
+    const outputs_expected = [
+      '[["a", "a", "b"], ["aa", "b"]]',
+      '[["a"]]',
+      '[["a", "b", "a"], ["aba"]]',
+      '[["a", "b", "b", "a"], ["a", "bb", "a"], ["abba"]]',
+      '[["r", "a", "c", "e", "c", "a", "r"], ["r", "a", "cec", "a", "r"], ["r", "aceca", "r"], ["racecar"]]'
+    ];
+
+    function met(input) {
+      const res = [];
+      const path = [];
+
+      function isPalindrome(str, left, right) {
+        while (left < right) {
+          if (str[left] !== str[right]) return false;
+          left++;
+          right--;
+        }
+        return true;
+      }
+
+      function backtrack(s, start) {
+        if (start === s.length) {
+          res.push([...path]);
+          return;
+        }
+
+        for (let end = start; end < s.length; end++) {
+          if (isPalindrome(s, start, end)) {
+            path.push(s.substring(start, end + 1));
+            backtrack(s, end + 1);
+            path.pop();
+          }
+        }
+      }
+
+      backtrack(input, 0);
+      return JSON.stringify(res);
+    }
+  </script>
+</body>
+</html>

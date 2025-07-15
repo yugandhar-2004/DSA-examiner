@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unique Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="header">
+    <h2>Unique Paths</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>A robot is located at the top-left corner of an m x n grid. The robot can only move either down or right at any point in time. Find how many possible unique paths are there to reach the bottom-right corner.</p>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        m = 3, n = 7<br><br>
+        <h3>Sample Output</h3>
+        <p>28</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        m = 3, n = 2<br><br>
+        <h3>Sample Output</h3>
+        <p>3</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "3 7",
+      "3 2",
+      "2 2",
+      "1 10",
+      "5 5"
+    ];
+
+    const outputs_expected = [
+      "28",
+      "3",
+      "2",
+      "1",
+      "70"
+    ];
+
+    function met(input) {
+      const [m, n] = input.trim().split(/\s+/).map(Number);
+      const dp = Array(m).fill().map(() => Array(n).fill(1));
+
+      for (let i = 1; i < m; i++) {
+        for (let j = 1; j < n; j++) {
+          dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+      }
+
+      return dp[m - 1][n - 1].toString();
+    }
+  </script>
+
+</body>
+</html>
