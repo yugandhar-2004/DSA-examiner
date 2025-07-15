@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DSA Examiner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fffff7;
+    }
+    header {
+      background: #282c34;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+      font-size: 24px;
+    }
+    nav {
+       background: #fffcf0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow-x: auto;
+      white-space: nowrap;
+      
+      
+    }
+    nav a {
+      display: inline-block;
+      padding: 15px 25px;
+      margin: 0 5px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      transition: 0.3s;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #007bff;
+      border-color: #007bff;
+    }
+    main {
+      padding: 20px;
+    }
+    .question-list {
+      margin-top: 20px;
+    }
+    .question-item {
+       background: #eefeff;
+       /* text-align: center; */
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius:  25px /50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background 0.2s;
+      border: solid aqua 1px;
+      width: 300px;
+    }
+    .question-item:hover {
+      background: #e3efff;
+    }
+    #question-container
+    {
+      margin-left: 25px;
+    }
+  </style>
+</head>
+<body>
+
+<header>DSA Examiner</header>
+
+<nav id="topic-nav">
+  <a href="#" data-topic="arrays">Arrays</a>
+  <a href="#" data-topic="sorting">Sorting</a>
+  <a href="#" data-topic="linkedlist">Linked List</a>
+  <a href="#" data-topic="stack">Stack</a>
+  <a href="#" data-topic="queue">Queue</a>
+  <a href="#" data-topic="tree">Tree</a>
+  <a href="#" data-topic="graph">Graph</a>
+  <a href="#" data-topic="shortestpath">Shortest Path</a>
+  <a href="#" data-topic="greedy">Greedy</a>
+  <a href="#" data-topic="dp">Dynamic Programming</a>
+  <a href="#" data-topic="backtracking">Backtracking</a>
+</nav>
+
+<main>
+  <div id="question-container"></div>
+</main>
+
+<script>
+const topics = {
+arrays: [
+  { id:'two-sum', title:"Two Sum " },
+  { id:'three-sum', title:"Three Sum " },
+  { id: 'buy-sell-stock', title: "Best Time to Buy and Sell Stock" },
+  { id: 'maximum-subarray', title: "Maximum Subarray" },
+  { id: 'contains-duplicate', title: "Contains Duplicate " },
+  { id: 'merge-intervals', title: "Merge Intervals " },
+  { id: 'set-matrix-zero', title: "Set Matrix Zeroes " },
+  { id: 'move-zeroes', title: "Move Zeroes " },
+  { id: 'rotate-array', title: "Rotate Array" }
+],
+
+sorting : [
+  { id: 'selection-sort', title: "Selection Sort" },
+  { id: 'bubble-sort', title: "Bubble Sort" },
+  { id: 'insertion-sort', title: "Insertion Sort" },
+  { id: 'merge-sort', title: "Merge Sort" },
+  { id: 'quick-sort', title: "Quick Sort" },
+  { id: 'sort-colors', title: "Sort Colors" },
+  { id: 'sort-array', title: "Sort an Array" },
+  { id: 'merge-intervals', title: "Merge Intervals" },
+  { id: 'largest-number', title: "Largest Number" }
+],
+
+
+linkedlist: [
+  { id: 'reverse-list', title: "Reverse Linked List" },
+  { id: 'merge-lists', title: "Merge Two Sorted Lists" },
+  { id: 'remove-nth', title: "Remove Nth Node From End" },
+  { id: 'middle-node', title: "Middle of the Linked List" },
+  { id: 'palindrome-list', title: "Palindrome Linked List" },
+  { id: 'intersection-list', title: "Intersection of Two Linked Lists" },
+  { id: 'delete-node', title: "Delete Node in a Linked List" },
+  { id: 'rotate-list', title: "Rotate List" },
+  { id: 'sort-list', title: "Sort List" }
+],
+
+
+stack: [
+  { id: 'valid-parentheses', title: "Valid Parentheses" },
+  { id: 'next-greater', title: "Next Greater Element" },
+  { id: 'daily-temperatures', title: "Daily Temperatures" },
+  { id: 'remove-k-digits', title: "Remove K Digits" },
+  { id: 'largest-rectangle', title: "Largest Rectangle in Histogram" },
+  { id: 'basic-calculator', title: "Basic Calculator" },
+  { id: 'simplify-path', title: "Simplify Path" },
+  { id: 'decode-string', title: "Decode String" },
+   { id: 'remove-duplicate-letters', title: "Remove Duplicate Letters" }
+],
+
+queue: [
+  { id: 'implement-queue', title: "Implement Queue" },
+  { id: 'circular-queue', title: "Design Circular Queue" },
+  { id: 'rotten-oranges', title: "Rotting Oranges" },
+  { id: 'sliding-window-max', title: "Sliding Window Maximum" },
+  { id: 'first-unique', title: "First Unique Character in a String" },
+  { id: 'number-islands', title: "Number of Islands (BFS)" },
+  { id: 'reverse-queue', title: "Reverse a Queue" },
+  { id: 'generate-binary-numbers', title: "Generate Binary Numbers from 1 to N" },
+  { id: 'reverse-first-k', title: "Reverse First K Elements of Queue" }
+],
+
+
+
+tree: [
+  { id: 'max-depth', title: "Maximum Depth of Binary Tree" },
+  { id: 'invert-tree', title: "Invert Binary Tree" },
+  { id: 'same-tree', title: "Same Tree" },
+  { id: 'symmetrical-tree', title: "Symmetric Tree" },
+  { id: 'path-sum', title: "Path Sum" },
+  { id: 'diameter-tree', title: "Diameter of Binary Tree" },
+  { id: 'level-order', title: "Binary Tree Level Order Traversal" },
+  { id: 'right-view', title: "Binary Tree Right Side View" },
+  { id: 'lowest-common-ancestor', title: "Lowest Common Ancestor of BST" },
+
+],
+
+graph: [
+  { id: 'number-islands', title: "Number of Islands" },
+  { id: 'clone-graph', title: "Clone Graph" },
+  { id: 'course-schedule', title: "Course Schedule " },
+  { id: 'shortest-path-bfs', title: "Shortest Path in Binary Matrix" },
+  { id: 'network-delay', title: "Network Delay Time" },
+  { id: 'city-destination', title: "Find the Town Judge" },
+  { id: 'min-cost-path', title: "Minimum Cost to Connect All Points" },
+  { id: 'accounts-merge', title: "Accounts Merge" },
+  { id: 'critical-connections', title: "Critical Connections in a Network" }
+],
+
+shortestpath: [
+  { id: 'dijkstra', title: "Dijkstra" },
+  { id: 'bellman-ford', title: "Bellman-Ford" },
+  { id: 'floyd-warshall', title: "Floyd-Warshall" },
+  { id: 'network-delay', title: "Network Delay Time" },
+  { id: 'cheapest-flights', title: "Cheapest Flights Within K Stops" },
+  { id: 'shortest-path-binary', title: "Shortest Path in Binary Matrix" },
+  { id: 'path-with-min-effort', title: "Path With Minimum Effort" },
+  { id: 'maze-shortest', title: "The Maze " },
+  { id: 'reach-target', title: "Minimum Steps to Reach Target" }
+],
+
+greedy: [
+  { id: 'jump-game', title: "Jump Game" },
+  { id: 'gas-station', title: "Gas Station" },
+  { id: 'candy', title: "Candy Distribution" },
+  { id: 'assign-cookies', title: "Assign Cookies" },
+  { id: 'non-overlapping-intervals', title: "Non-overlapping Intervals" },
+  { id: 'partition-labels', title: "Partition Labels" },
+  { id: 'merge-intervals', title: "Merge Intervals" },
+  { id: 'minimum-arrows', title: "Minimum Number of Arrows" },
+  { id: 'activity-selection', title: "Activity Selection" }
+],
+
+dp: [
+  { id: 'climbing-stairs', title: "Climbing Stairs" },
+  { id: 'house-robber', title: "House Robber" },
+  { id: 'longest-increasing-subsequence', title: "Longest Increasing Subsequence" },
+  { id: 'longest-common-subsequence', title: "Longest Common Subsequence" },
+  { id: 'edit-distance', title: "Edit Distance" },
+  { id: 'coin-change', title: "Coin Change" },
+  { id: 'partition-equal-subset', title: "Partition Equal Subset Sum" },
+  { id: 'max-product-subarray', title: "Maximum Product Subarray" },
+  { id: 'unique-paths', title: "Unique Paths" }
+],
+
+backtracking: [
+  { id: 'subset', title: "Subsets" },
+  { id: 'subset-ii', title: "Subsets II" },
+  { id: 'permutations', title: "Permutations" },
+  { id: 'permutations-ii', title: "Permutations II" },
+  { id: 'combination-sum', title: "Combination Sum" },
+  { id: 'word-search', title: "Word Search" },
+  { id: 'palindrome-partitioning', title: "Palindrome Partitioning" },
+  { id: 'n-queens', title: "N-Queens" },
+  { id: 'sudoku-solver', title: "Sudoku Solver" }
+],
+
+};
+
+  const nav = document.getElementById('topic-nav');
+  const container = document.getElementById('question-container');
+
+  function loadTopic(topicKey) {
+    nav.querySelectorAll('a').forEach(a => {
+      a.classList.toggle('active', a.dataset.topic === topicKey);
+    }); 
+
+    const list = topics[topicKey] || [];
+    container.innerHTML = '';
+
+    if (!list.length) {
+      container.innerHTML = '<p>No questions available.</p>';
+      return;
+    }
+
+    const qlist = document.createElement('div');
+    qlist.className = 'question-list';
+
+    list.forEach(q => {
+      const item = document.createElement('div');
+      item.className = 'question-item';
+      item.textContent = q.title;
+      item.onclick = () => {
+        window.location.href = `questions/${q.id}.html`;
+      };
+      qlist.appendChild(item);
+    });
+
+    container.appendChild(qlist);
+  }
+
+  nav.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      e.preventDefault();
+      loadTopic(e.target.dataset.topic);
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadTopic('arrays');
+  });
+</script>
+
+</body>
+</html>
