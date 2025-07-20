@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Temperatures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Daily Temperatures</h2>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="headerblock">
+        <h3>Description</h3>
+        <p>Given an integer n, and an array of n integers representing daily temperatures, return an array such that each element is the number of days to wait until a warmer temperature. If no future day has a warmer temperature, put 0.</p>
+        <p>Return the result as an array.</p>
+      </div>
+
+      <div class="headerblock">
+        <h3>Example 1:</h3>
+        <h3>Sample Input</h3>
+        n = 8<br><br>
+        temps = [73, 74, 75, 71, 69, 72, 76, 73]<br><br>
+        <h3>Sample Output</h3>
+        <p>[1, 1, 4, 2, 1, 1, 0, 0]</p>
+      </div>
+
+      <div class="headerblock" style="margin-bottom: 0px;">
+        <h3>Example 2:</h3>
+        <h3>Sample Input</h3>
+        n = 4<br><br>
+        temps = [30, 40, 50, 60]<br><br>
+        <h3>Sample Output</h3>
+        <p>[1, 1, 1, 0]</p>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <div class="controls">
+        <select id="language">
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <button style="width: 60px;" onclick="runCode()">Run</button>
+      </div>
+
+      <div class="editor-box">
+        <div id="editor"></div>
+      </div>
+
+      <label>
+        <input type="checkbox" id="customInputToggle" onchange="toggleInput()"> Use Custom Input
+      </label>
+
+      <div id="custom-input" style="display:none;">
+        <textarea id="userInput" rows="5" cols="125" placeholder="Enter your input..."></textarea>
+      </div>
+
+      <div class="output-box">
+        <h3>Output: <span style="font-size: 20px;" id="hii"></span></h3>
+
+        <div style="display: flex; gap: 30px; margin-bottom: 10px;">
+          <button id="a1" onclick="showTestCase(0);setActive(this)">Case 1</button>
+          <button id="a2" onclick="showTestCase(1);setActive(this)">Case 2</button>
+          <button id="a3" onclick="showTestCase(2);setActive(this)">Case 3</button>
+          <button id="a4" onclick="showTestCase(3);setActive(this)">Hidden</button>
+          <button id="a5" onclick="showTestCase(4);setActive(this)">Hidden</button>
+        </div>
+
+        <pre id="output">Click a testcase to view output...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = [
+      "8 73 74 75 71 69 72 76 73",
+      "4 30 40 50 60",
+      "4 30 60 90 100",
+      "5 90 80 70 60 50",
+      "6 45 60 55 50 52 53"
+    ];
+
+    const outputs_expected = [
+      "[1, 1, 4, 2, 1, 1, 0, 0]",
+      "[1, 1, 1, 0]",
+      "[1, 1, 1, 0]",
+      "[0, 0, 0, 0, 0]",
+      "[1, 0, 0, 1, 1, 0]"
+    ];
+
+    function met(input) {
+      const tokens = input.trim().split(/\s+/).map(Number);
+      let index = 0;
+      const n = tokens[index++];
+      const temps = tokens.slice(index, index + n);
+      const res = new Array(n).fill(0);
+      const stack = [];
+
+      for (let i = 0; i < n; i++) {
+        while (stack.length && temps[i] > temps[stack[stack.length - 1]]) {
+          const prev = stack.pop();
+          res[prev] = i - prev;
+        }
+        stack.push(i);
+      }
+
+      return `[${res.join(", ")}]`;
+    }
+  </script>
+
+</body>
+</html>
