@@ -54,8 +54,8 @@ async function runCode()
       headers: {
         "Content-Type": "application/json",
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "af33c10c6bmsh7430b689fd3bb49p1019eejsnba941b82fa1a"
-        // "X-RapidAPI-Key": "fff0a0e9ddmshad8e36b31b730d7p1a3c37jsnfaee54a86ee2"
+        // "X-RapidAPI-Key": "af33c10c6bmsh7430b689fd3bb49p1019eejsnba941b82fa1a"
+        "X-RapidAPI-Key": "fff0a0e9ddmshad8e36b31b730d7p1a3c37jsnfaee54a86ee2"
       },
       body: JSON.stringify({
         source_code: code,

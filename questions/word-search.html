@@ -17,13 +17,15 @@
     <div class="sidebar">
       <div class="headerblock">
         <h3>Description</h3>
-        <p>Given a 2D board and a word, check if the word exists in the grid.</p>
+        <p>Given a 2D board of length n and size m and a word, check if the word exists in the grid.</p>
         <p>The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
       </div>
 
       <div class="headerblock">
         <h3>Example 1:</h3>
         <h3>Sample Input</h3>
+        n = 3<br><br>
+        m = 4<br><br>
         board = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]]<br><br>
         word = "ABCCED"<br><br>
         <h3>Sample Output</h3>
@@ -33,6 +35,8 @@
       <div class="headerblock" style="margin-bottom: 0px;">
         <h3>Example 2:</h3>
         <h3>Sample Input</h3>
+        n = 2<br><br>
+        m = 2<br><br>
         board = [["A", "B"], ["C", "D"]]<br><br>
         word = "ACDB"<br><br>
         <h3>Sample Output</h3>
@@ -89,7 +93,7 @@
     const outputs_expected = [
       "true",
       "true",
-      "true",
+      "false",
       "true",
       "false"
     ];

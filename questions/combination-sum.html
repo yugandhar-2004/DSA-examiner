@@ -93,43 +93,46 @@
     const outputs_expected = [
       "[[2, 2, 3], [7]]",
       "[[2, 2, 2, 2], [2, 3, 3], [3, 5]]",
-      "[[5, 5]]",
-      "[[1, 1, 1, 1], [1, 3], [2, 2]]",
-      "[[3, 3, 3]]"
+      "[[2, 2, 2, 2, 2], [5, 5]]",
+      "[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2]]",
+      "[]"
     ];
 
-    function met(input) {
-      const tokens = input.trim().split(/\s+/).map(Number);
-      let index = 0;
-      const n = tokens[index++];
-      const nums = [];
+   function met(input) {
+  const tokens = input.trim().split(/\s+/).map(Number);
+  let index = 0;
+  const n = tokens[index++];
+  const nums = [];
 
-      for (let i = 0; i < n; i++) {
-        nums.push(tokens[index++]);
-      }
+  for (let i = 0; i < n; i++) {
+    nums.push(tokens[index++]);
+  }
 
-      const target = tokens[index];
+  const target = tokens[index];
 
-      nums.sort((a, b) => a - b);
-      const result = [];
+  nums.sort((a, b) => a - b);
+  const result = [];
 
-      function backtrack(start, path, sum) {
-        if (sum === target) {
-          result.push([...path]);
-          return;
-        }
-
-        for (let i = start; i < nums.length; i++) {
-          if (sum + nums[i] > target) break;
-          path.push(nums[i]);
-          backtrack(i, path, sum + nums[i]);
-          path.pop();
-        }
-      }
-
-      backtrack(0, [], 0);
-      return JSON.stringify(result);
+  function backtrack(start, path, sum) {
+    if (sum === target) {
+      result.push([...path]);
+      return;
     }
+
+    for (let i = start; i < nums.length; i++) {
+      if (sum + nums[i] > target) break;
+      path.push(nums[i]);
+      backtrack(i, path, sum + nums[i]);
+      path.pop();
+    }
+  }
+
+  backtrack(0, [], 0);
+
+  // Format result with space after every comma
+  return "[" + result.map(arr => "[" + arr.join(", ") + "]").join(", ") + "]";
+}
+
   </script>
 </body>
 </html>

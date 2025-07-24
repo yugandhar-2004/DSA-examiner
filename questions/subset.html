@@ -89,37 +89,57 @@
     ];
 
     const outputs_expected = [
-      "[[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
-      "[[], [0], [1], [0, 1]]",
+      "[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]",
+      "[[], [0], [0, 1], [1]]",
       "[[], [5]]",
       "[[]]",
-      "[[], [9], [8], [7], [6], [9, 8], [9, 7], [9, 6], [8, 7], [8, 6], [7, 6], [9, 8, 7], [9, 8, 6], [9, 7, 6], [8, 7, 6], [9, 8, 7, 6]]"
+      "[[], [9], [9, 8], [9, 8, 7], [9, 8, 7, 6], [9, 8, 6], [9, 7], [9, 7, 6], [9, 6], [8], [8, 7], [8, 7, 6], [8, 6], [7], [7, 6], [6]]"
     ];
+function met(input) 
+{
+  const tokens = input.trim().split(/\s+/).map(Number);
+  const board = [];
 
-    function met(input) {
-      const tokens = input.trim().split(/\s+/).map(Number);
-      let index = 0;
-      const n = tokens[index++];
-      const nums = [];
+  // Build 9x9 board
+  for (let i = 0; i < 9; i++) {
+    board.push(tokens.slice(i * 9, (i + 1) * 9));
+  }
 
-      for (let i = 0; i < n; i++) {
-        nums.push(tokens[index++]);
-      }
+  function isValid(board, row, col, num) {
+    for (let i = 0; i < 9; i++) {
+      if (board[row][i] === num || board[i][col] === num) return false;
+      const boxRow = 3 * Math.floor(row / 3) + Math.floor(i / 3);
+      const boxCol = 3 * Math.floor(col / 3) + (i % 3);
+      if (board[boxRow][boxCol] === num) return false;
+    }
+    return true;
+  }
 
-      const res = [];
-
-      function backtrack(start, path) {
-        res.push([...path]);
-        for (let i = start; i < nums.length; i++) {
-          path.push(nums[i]);
-          backtrack(i + 1, path);
-          path.pop();
+  function solve(board) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (board[row][col] === 0) {
+          for (let num = 1; num <= 9; num++) {
+            if (isValid(board, row, col, num)) {
+              board[row][col] = num;
+              if (solve(board)) return true;
+              board[row][col] = 0;
+            }
+          }
+          return false;
         }
       }
-
-      backtrack(0, []);
-      return JSON.stringify(res);
     }
+    return true;
+  }
+
+  solve(board);
+
+  const result = board.map(row => `[${row.join(', ')}]`).join('\n');
+  return result;
+}
+
+
   </script>
 </body>
 </html>

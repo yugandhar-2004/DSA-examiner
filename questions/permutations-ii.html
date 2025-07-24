@@ -95,42 +95,44 @@
       "[[7]]"
     ];
 
-    function met(input) {
-      const tokens = input.trim().split(/\s+/).map(Number);
-      let index = 0;
+function met(input) {
+  const tokens = input.trim().split(/\s+/).map(Number);
+  let index = 0;
 
-      const n = tokens[index++];
-      const nums = [];
+  const n = tokens[index++];
+  const nums = [];
 
-      for (let i = 0; i < n; i++) {
-        nums.push(tokens[index++]);
-      }
+  for (let i = 0; i < n; i++) {
+    nums.push(tokens[index++]);
+  }
 
-      nums.sort((a, b) => a - b);
-      const res = [];
-      const used = new Array(nums.length).fill(false);
+  nums.sort((a, b) => a - b);
+  const res = [];
+  const used = new Array(nums.length).fill(false);
 
-      function backtrack(path) {
-        if (path.length === nums.length) {
-          res.push([...path]);
-          return;
-        }
-
-        for (let i = 0; i < nums.length; i++) {
-          if (used[i]) continue;
-          if (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]) continue;
-
-          used[i] = true;
-          path.push(nums[i]);
-          backtrack(path);
-          path.pop();
-          used[i] = false;
-        }
-      }
-
-      backtrack([]);
-      return JSON.stringify(res);
+  function backtrack(path) {
+    if (path.length === nums.length) {
+      res.push([...path]);
+      return;
     }
+
+    for (let i = 0; i < nums.length; i++) {
+      if (used[i]) continue;
+      if (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]) continue;
+
+      used[i] = true;
+      path.push(nums[i]);
+      backtrack(path);
+      path.pop();
+      used[i] = false;
+    }
+  }
+
+  backtrack([]);
+
+  return JSON.stringify(res).replace(/,/g, ', ');
+}
+
   </script>
 </body>
 </html>

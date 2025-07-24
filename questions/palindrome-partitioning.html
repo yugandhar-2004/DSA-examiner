@@ -25,7 +25,7 @@
         <h3>Sample Input</h3>
         s = "aab"<br><br>
         <h3>Sample Output</h3>
-        <p>[["a", "a", "b"], ["aa", "b"]]</p>
+        <p>[[a, a, b], [aa, b]]</p>
       </div>
 
       <div class="headerblock" style="margin-bottom: 0px;">
@@ -33,7 +33,7 @@
         <h3>Sample Input</h3>
         s = "a"<br><br>
         <h3>Sample Output</h3>
-        <p>[["a"]]</p>
+        <p>[[a]]</p>
       </div>
     </div>
 
@@ -84,44 +84,47 @@
     ];
 
     const outputs_expected = [
-      '[["a", "a", "b"], ["aa", "b"]]',
-      '[["a"]]',
-      '[["a", "b", "a"], ["aba"]]',
-      '[["a", "b", "b", "a"], ["a", "bb", "a"], ["abba"]]',
-      '[["r", "a", "c", "e", "c", "a", "r"], ["r", "a", "cec", "a", "r"], ["r", "aceca", "r"], ["racecar"]]'
+        '[[a, a, b], [aa, b]]',
+        '[[a]]',
+        '[[a, b, a], [aba]]',
+        '[[a, b, b, a], [a, bb, a], [abba]]',
+        '[[r, a, c, e, c, a, r], [r, a, cec, a, r], [r, aceca, r], [racecar]]'
+
     ];
+function met(input) {
+  const res = [];
+  const path = [];
 
-    function met(input) {
-      const res = [];
-      const path = [];
-
-      function isPalindrome(str, left, right) {
-        while (left < right) {
-          if (str[left] !== str[right]) return false;
-          left++;
-          right--;
-        }
-        return true;
-      }
-
-      function backtrack(s, start) {
-        if (start === s.length) {
-          res.push([...path]);
-          return;
-        }
-
-        for (let end = start; end < s.length; end++) {
-          if (isPalindrome(s, start, end)) {
-            path.push(s.substring(start, end + 1));
-            backtrack(s, end + 1);
-            path.pop();
-          }
-        }
-      }
-
-      backtrack(input, 0);
-      return JSON.stringify(res);
+  function isPalindrome(str, left, right) {
+    while (left < right) {
+      if (str[left] !== str[right]) return false;
+      left++;
+      right--;
     }
+    return true;
+  }
+
+  function backtrack(s, start) {
+    if (start === s.length) {
+      res.push([...path]);
+      return;
+    }
+
+    for (let end = start; end < s.length; end++) {
+      if (isPalindrome(s, start, end)) {
+        path.push(s.substring(start, end + 1));
+        backtrack(s, end + 1);
+        path.pop();
+      }
+    }
+  }
+
+  backtrack(input, 0);
+
+  // Custom formatting: remove quotes and add space after commas
+  return '[' + res.map(arr => '[' + arr.join(', ') + ']').join(', ') + ']';
+}
+
   </script>
 </body>
 </html>

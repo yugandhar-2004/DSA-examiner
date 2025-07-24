@@ -96,32 +96,35 @@
       "[[]]"
     ];
 
-    function met(input) {
-      const tokens = input.trim().split(/\s+/).map(Number);
-      let index = 0;
-      const n = tokens[index++];
-      const nums = [];
+   function met(input) {
+  const tokens = input.trim().split(/\s+/).map(Number);
+  let index = 0;
+  const n = tokens[index++];
+  const nums = [];
 
-      for (let i = 0; i < n; i++) {
-        nums.push(tokens[index++]);
-      }
+  for (let i = 0; i < n; i++) {
+    nums.push(tokens[index++]);
+  }
 
-      nums.sort((a, b) => a - b);
-      const res = [];
+  nums.sort((a, b) => a - b);
+  const res = [];
 
-      function backtrack(start, path) {
-        res.push([...path]);
-        for (let i = start; i < nums.length; i++) {
-          if (i > start && nums[i] === nums[i - 1]) continue;
-          path.push(nums[i]);
-          backtrack(i + 1, path);
-          path.pop();
-        }
-      }
-
-      backtrack(0, []);
-      return JSON.stringify(res);
+  function backtrack(start, path) {
+    res.push([...path]);
+    for (let i = start; i < nums.length; i++) {
+      if (i > start && nums[i] === nums[i - 1]) continue;
+      path.push(nums[i]);
+      backtrack(i + 1, path);
+      path.pop();
     }
+  }
+
+  backtrack(0, []);
+
+  // Beautify output with comma + space, including between arrays
+  return `[${res.map(arr => `[${arr.join(', ')}]`).join(', ')}]`;
+}
+
   </script>
 </body>
 </html>
